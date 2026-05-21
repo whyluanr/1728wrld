@@ -3765,7 +3765,7 @@ end
 
 function MacLib:Window(Settings)
 	Settings = Defaults({
-		Title = "Goomba Hub",
+		Title = "MacLib",
 		Subtitle = "",
 		Size = UDim2.fromOffset(868, 650),
 		Scale = 1,
@@ -5439,109 +5439,6 @@ function MacLib:Window(Settings)
 
 	macLib.Enabled = false
 	macLib.Enabled = true
-
-	local uiButton;
-
-	local createUIButton = function()
-		if uiButton == nil then
-			local mainGui = Instance.new('ScreenGui', game:GetService('CoreGui'));
-			mainGui.DisplayOrder = 1;
-			uiButton = mainGui;
-
-			local button = Instance.new('TextButton', mainGui);
-			button.AnchorPoint = Vector2.new(1, 0.5);
-			button.Position = UDim2.new(1, 0, 0.5, 0);
-			button.Size = UDim2.new(0.08, 0, 0.087, 0);
-			button.SizeConstraint = Enum.SizeConstraint.RelativeYY
-			button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			button.TextColor3 = Color3.fromRGB(255, 255, 255)
-			button.Text = ''
-			button.ZIndex = 9998
-
-			local gradient = Instance.new('UIGradient', button);
-			gradient.Color = ColorSequence.new({
-				ColorSequenceKeypoint.new(0, Color3.new(10/255, 22/255, 22/255)),
-				ColorSequenceKeypoint.new(1, Color3.new(15/255, 68/255, 64/255))
-			})
-			gradient.Enabled = true
-			gradient.Rotation = -120
-
-			local stroke = Instance.new('UIStroke', button);
-			stroke.LineJoinMode = 0
-			stroke.Thickness = 4
-			stroke.Enabled = true
-			stroke.ApplyStrokeMode = 1
-			stroke.Color = Color3.new(1, 1, 1)
-			local gradient2 = Instance.new('UIGradient', stroke);
-			gradient2.Color = ColorSequence.new{
-				ColorSequenceKeypoint.new(0, Color3.new(120/255, 90/255, 40/255)),
-				ColorSequenceKeypoint.new(1, Color3.new(214/255, 159/255, 64/255))
-			}
-
-
-			local label = Instance.new('TextLabel', button);
-			label.AnchorPoint = Vector2.new(0.5, 0.5)
-			label.Position = UDim2.new(0.5, 0, 0.5, 0)
-			label.Size = UDim2.new(0.882, 0, 0.823, 0)
-			label.TextColor3 = Color3.fromRGB(255, 5, 5)
-			label.BackgroundTransparency = 1
-			label.Text = 'Goomba Hub'
-			label.TextScaled = true
-			label.ZIndex = 9999
-
-			local UserInputService = game:GetService("UserInputService")
-			local RunService = game:GetService("RunService")
-
-			local frame = button
-
-			local dragging
-			local dragInput
-			local dragStart
-			local startPos
-
-			local function update(input)
-				local delta = input.Position - dragStart
-
-				-- Convert scale to offset for Y position
-				local parentHeight = frame.Parent.AbsoluteSize.Y
-				local startOffsetY = startPos.Y.Scale * parentHeight + startPos.Y.Offset
-				local newPosY = math.clamp(startOffsetY + delta.Y, 0, parentHeight - frame.AbsoluteSize.Y)
-
-				-- Lock X position to the right edge and allow only vertical movement
-				frame.Position = UDim2.new(1, 0, 0, newPosY)
-			end
-
-			frame.InputBegan:Connect(function(input)
-				if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-					dragging = true
-					dragStart = input.Position
-					startPos = frame.Position
-
-					input.Changed:Connect(function()
-						if input.UserInputState == Enum.UserInputState.End then
-							dragging = false
-						end
-					end)
-				end
-			end)
-
-			frame.InputChanged:Connect(function(input)
-				if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-					dragInput = input
-				end
-			end)
-
-			RunService.RenderStepped:Connect(function()
-				if dragging and dragInput then
-					update(dragInput)
-				end
-			end)
-			button.MouseButton1Click:Connect(function()
-				WindowFunctions:SetState( not windowState )
-			end)
-		end
-	end
-	task.delay(0.05, createUIButton)
 
 	setmetatable(WindowFunctions, TabGroupFunctions)
 
